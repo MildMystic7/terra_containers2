@@ -1,0 +1,15 @@
+session_name: docker_session
+env:
+ CONTAINER_NAME:docker-realsense_ros2
+shell_command_before:
+  - docker compose -f docker/docker-compose.yaml up --build -d
+windows:
+  - window_name: Docker Shell
+    shell_command_before:
+      - docker run --rm -it --privileged -v /dev:/dev CONTAINER_NAME bash
+      - . install/local_setup.bash
+    panes:
+      - shell_command:
+          - echo CONTAINER_NAME
+      - shell_command:
+          - ros2 topic list
