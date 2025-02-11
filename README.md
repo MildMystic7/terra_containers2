@@ -1,6 +1,6 @@
 # enza_containers
 
-
+Instructions here: https://gitlab.com/enzarobotics/docs/-/wikis/How-to-setup-realsense
 
 ## Getting started
 
