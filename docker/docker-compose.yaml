@@ -6,9 +6,12 @@ services:
       dockerfile: docker/Dockerfile
       #target: librealsense
     tty: true
-    # stdin_open: true
+    stdin_open: true
+    privileged: true 
     volumes:
       - /dev:/dev
+      - ~/data:/data
+    command: bash
     device_cgroup_rules:
       - 'c 81:* rmw'
       - 'c 189:* rmw'

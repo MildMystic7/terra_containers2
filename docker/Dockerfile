@@ -43,7 +43,7 @@ RUN export LIBRS_GIT_TAG=`git -c 'versionsort.suffix=-' \
     rm librealsense.tar.gz; \
     ln -s /usr/src/librealsense-${LIBRS_VERSION} /usr/src/librealsense
 
-# Build rlibealsense
+# Build libealsense
 RUN cd /usr/src/librealsense \
  && mkdir build && cd build \
  && cmake \
@@ -84,7 +84,7 @@ RUN apt-get update \
     software-properties-common \
  && rm -rf /var/lib/apt/lists/*
 
-# Install realsense-ros2
+# Install realsense-ros2 and other ros2 setup
 # The following steps are based on: https://github.com/IntelRealSense/realsense-ros/tree/ros2-development
 ENV WS_DIR="/ros2_ws"
 WORKDIR ${WS_DIR}
@@ -102,6 +102,25 @@ RUN apt-get update -y \
  && rosdep update \
  && rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} --skip-keys=librealsense2 -y \
  && colcon build
+
+# Pixhawk DDS agent build and install
+RUN  git clone https://github.com/eProsima/Micro-XRCE-DDS-Agent.git \
+   && cd Micro-XRCE-DDS-Agent \
+   && mkdir build \
+   && cd build \
+   && cmake .. \
+   && make -j$(($(nproc)-1)) all \
+   && make install \
+   && ldconfig /usr/local/lib/
+
+# Px4 Ros messages
+RUN mkdir -p ~/ws_sensor_combined/src/ \
+&& cd ~/ws_sensor_combined/src/ \
+&& git clone https://github.com/PX4/px4_msgs.git \
+&& git clone https://github.com/PX4/px4_ros_com.git \
+&& cd .. \
+&& . /opt/ros/humble/setup.bash \
+&& colcon build
 
 ENV DEBIAN_FRONTEND=dialog
 
