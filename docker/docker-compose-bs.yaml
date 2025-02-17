@@ -1,10 +1,9 @@
 version: "3.9"
 services:
-  realsense_ros2:
+  ros2-bs:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
-      #target: librealsense
+      dockerfile: docker/Dockerfile.robot
     tty: true
     stdin_open: true
     privileged: true 
