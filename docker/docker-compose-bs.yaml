@@ -3,7 +3,7 @@ services:
   ros2-bs:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.robot
+      dockerfile: docker/Dockerfile.bs
     tty: true
     stdin_open: true
     privileged: true 
