@@ -7,7 +7,8 @@ windows:
   - window_name: Docker Shell
     layout: tiled
     shell_command_before:
-      - docker run --rm -it --privileged --network host -v /dev:/dev -v ~/data:/data $CONTAINER_NAME bash
+      - xhost +local:docker
+      - docker run --rm -it --privileged --network host -v /dev:/dev -v ~/data:/data --env "DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw"  $CONTAINER_NAME bash
       - . install/local_setup.bash
     panes:
       - shell_command:
@@ -19,4 +20,5 @@ windows:
       - shell_command:
           # Bag record
           - cd /DATA
+          - rviz2
           # - ros2 bag record /camera/camera/infra1/image_rect_raw /camera/camera/infra2/image_rect_raw /camera/camera/color/image_raw /camera/camera/gyro/sample /camera/camera/accel/sample
