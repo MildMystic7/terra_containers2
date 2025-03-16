@@ -1,24 +1,38 @@
 session_name: docker_session
 environment:
- CONTAINER_NAME: "docker-realsense_ros2"
-# shell_command_before:
-#   - docker compose -f docker/docker-compose.yaml up --build -d
+ CONTAINER_NAME: "docker-realsense_ros2-1"
+shell_command_before:
+  - xhost +local:docker
+  - docker exec -it $CONTAINER_NAME bash
+  - . /opt/ros/humble/setup.bash 
 windows:
-  - window_name: Docker Shell
+  - window_name: Main panel
     layout: tiled
-    shell_command_before:
-      - xhost +local:docker
-      - docker run --rm -it --privileged --network host -v /dev:/dev -v ~/data:/data --env "DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw"  $CONTAINER_NAME bash
-      - . install/local_setup.bash
     panes:
       - shell_command:
-          # Realsense node
-          - ros2 launch realsense2_camera rs_launch.py enable_gyro:=true enable_accel:=true enable_infra1:=true enable_infra2:=true
+        # Realsense node
+        - ros2 launch realsense2_camera rs_launch.py  enable_gyro:=true enable_accel:=true enable_infra1:=true enable_infra2:=true unite_imu_method:="2" pointcloud.enable:=true
       - shell_command:
-          # Health
-          - ros2 topic list
+        # Disable IR emitter
+        - sleep 5
+        - ros2 param set /camera/camera depth_module.emitter_on_off true
+        - ros2 param set /camera/camera filter_by_sequence_id.enable true
+        - ros2 param set /camera/camera filter_by_sequence_id.sequence_id 2
       - shell_command:
-          # Bag record
-          - cd /DATA
-          - rviz2
-          # - ros2 bag record /camera/camera/infra1/image_rect_raw /camera/camera/infra2/image_rect_raw /camera/camera/color/image_raw /camera/camera/gyro/sample /camera/camera/accel/sample
+        # Record bag
+        - cd /data
+        - record_cmd="ros2 bag record /camera/camera/infra1/image_rect_raw /camera/camera/infra2/image_rect_raw /camera/camera/color/image_raw /camera/camera/gyro/sample /camera/camera/accel/sample"
+        - read -e -p "${PS1@P}" -i "$record_cmd" cmd; bash -c "$cmd"
+      - shell_command:
+        - rviz2 -d ./config_rviz/3D_default.rviz
+  - window_name: Ros nodes
+    layout: tiled
+    panes:
+      - shell_command:
+        - colcon build
+        - . install/setup.bash
+        - ros2 run gravity_align talker
+        - echo Hello
+  
+global_options:
+  mouse: on

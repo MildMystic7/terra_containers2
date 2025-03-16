@@ -1,17 +1,18 @@
 session_name: docker_session
 environment:
- CONTAINER_NAME: "docker-realsense_ros2"
-# shell_command_before:
-#   - docker compose -f docker/docker-compose.yaml up --build -d
+ CONTAINER_NAME: "docker-ros2-bs-1"
+shell_command_before:
+  - xhost +local:docker
+  - docker exec -it $CONTAINER_NAME bash
+  - . /opt/ros/humble/setup.bash 
 windows:
-  - window_name: Docker Shell
+  - window_name: Main panel
     layout: tiled
-    shell_command_before:
-      - docker run --rm -it --privileged --network host -v /dev:/dev -v ~/data:/data --env "DISPLAY" --env="QT_X11_NO_MITSHM=1" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" docker-realsense_ros2 bash
-      - . install/local_setup.bash
     panes:
       - shell_command:
           - rviz2
       - shell_command:
           # Health
           - ros2 topic list
+global_options:
+  mouse: on
