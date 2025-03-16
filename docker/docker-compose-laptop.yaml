@@ -6,10 +6,17 @@ services:
       dockerfile: docker/Dockerfile.laptop
     tty: true
     stdin_open: true
-    privileged: true 
+    privileged: true
+    network_mode: "host"
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
     volumes:
       - /dev:/dev
+      - ../config_rviz:/ros2_ws/config_rviz
       - ~/data:/data
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ../../enza_src:/ros2_ws/src
     command: bash
     device_cgroup_rules:
       - 'c 81:* rmw'
