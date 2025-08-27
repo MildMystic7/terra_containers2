@@ -16,7 +16,7 @@ services:
       - ../config_rviz:/ros2_ws/config_rviz
       - ~/data:/data
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ../../enza_src:/ros2_ws/src
+      - ../../terra_src:/ros2_ws/src
     command: bash
     device_cgroup_rules:
       - 'c 81:* rmw'

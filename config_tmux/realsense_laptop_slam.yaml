@@ -21,8 +21,8 @@ windows:
         # Start SLAM node
         - colcon build --packages-select orbslam3
         - . install/setup.bash
-        # - ros2 launch ov_msckf subscribe.launch.py config:=enza_d455
-        - ros2 run orbslam3 stereo src/orbslam3_ros2/vocabulary/ORBvoc.txt src/orbslam3_ros2/config/stereo/Enza_D455.yaml false
+        # - ros2 launch ov_msckf subscribe.launch.py config:=terra_d455
+        - ros2 run orbslam3 stereo src/orbslam3_ros2/vocabulary/ORBvoc.txt src/orbslam3_ros2/config/stereo/terra_D455.yaml false
       - shell_command:
         # Record bag
         - cd /data

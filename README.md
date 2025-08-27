@@ -1,6 +1,6 @@
-# enza_containers
+# terra_containers
 
-Instructions here: https://gitlab.com/enzarobotics/docs/-/wikis/How-to-setup-realsense
+Instructions here: https://gitlab.com/terrarobotics/docs/-/wikis/How-to-setup-realsense
 
 ## Getting started
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/enzarobotics/enza_containers.git
+git remote add origin https://gitlab.com/terrarobotics/terra_containers.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/enzarobotics/enza_containers/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/terrarobotics/terra_containers/-/settings/integrations)
 
 ## Collaborate with your team
 
